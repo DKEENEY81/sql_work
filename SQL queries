@@ -78,24 +78,24 @@
 
   **Query 2**:
 
-    SELECT customer_id, first_name, last_name, email, SUM(total_quantity) as total_qty
-      FROM (SELECT cust.customer_id, cust.first_name, cust.last_name, cust.email, purch.purchase_id, purch.purchase_time, SUM(p2.quantity) as Total_quantity, SUM(p2.total_amount_paid) as total_amt_paid
-             FROM customer cust
-                INNER JOIN purchase purch ON cust.customer_id = purch.customer_id
-                INNER JOIN purchase_item p2 ON purch.purchase_id = p2.purchase_id 
-                GROUP BY purch.purchase_id, cust.customer_id
-                ORDER BY purch.purchase_id) as FOO
-        GROUP BY customer_id, foo.first_name, foo.last_name, foo.email
-        ORDER BY total_qty DESC
+  SELECT customer_id, first_name, last_name, email, SUM(total_quantity) as total_qty
+  FROM (SELECT cust.customer_id, cust.first_name, cust.last_name, cust.email, purch.purchase_id, purch.purchase_time, SUM(p2.quantity) as Total_quantity, SUM(p2.total_amount_paid) as total_amt_paid
+         FROM customer cust
+            INNER JOIN purchase purch ON cust.customer_id = purch.customer_id
+            INNER JOIN purchase_item p2 ON purch.purchase_id = p2.purchase_id 
+            GROUP BY purch.purchase_id, cust.customer_id
+            ORDER BY purch.purchase_id) as FOO
+    WHERE total_quantity >1
+    GROUP BY customer_id, foo.first_name, foo.last_name, foo.email
+    ORDER BY total_qty DESC
 
 **[Results][2]**:
 
-    | customer_id | first_name | last_name |                     email | total_qty |
-    |-------------|------------|-----------|---------------------------|-----------|
-    |           1 |      James |     Smith |    jamessmith@example.com |         8 |
-    |           2 |       Mary |   Johnson |   maryjohnson@example.com |         4 |
-    |           3 |       John |  Williams |  johnwilliams@example.com |         1 |
-    |           5 |    Michael |    Garcia | michaelgarcia@example.com |         1 |
+    | customer_id | first_name | last_name |                   email | total_qty |
+    |-------------|------------|-----------|-------------------------|-----------|
+    |           1 |      James |     Smith |  jamessmith@example.com |         6 |
+    |           2 |       Mary |   Johnson | maryjohnson@example.com |         4 |
 
-  [1]: http://sqlfiddle.com/#!15/084b28/11550
-  [2]: http://sqlfiddle.com/#!15/084b28/11550/0
+  [1]: http://sqlfiddle.com/#!15/084b28/11555
+  [2]: http://sqlfiddle.com/#!15/084b28/11555/0
+
