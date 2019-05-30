@@ -1,2 +1,3 @@
 # sql_work
-Example of sql queries
+
+Schema and sandbox used to complete take home test along with my solutions.
